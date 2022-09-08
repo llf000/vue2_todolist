@@ -43,6 +43,10 @@ export default {
     removeTodo(id) {
       this.todos = this.todos.filter(todo => todo.id !== id)
     },
+    // 编辑todo
+    updateTodo(id, text) {
+      this.todos.forEach(todo => { if (todo.id === id) todo.text = text })
+    },
     // 勾选或取消勾选todo--每个todo项前的复选框
     checkTodo(id) {
       this.todos.forEach(todo => {
@@ -74,7 +78,14 @@ export default {
   mounted() {
     this.$bus.$on('checkTodo', this.checkTodo)
     this.$bus.$on('removeTodo', this.removeTodo)
+    this.$bus.$on('updateTodo', this.updateTodo)
   },
+  // 在组件被销毁前需要取消自定义动的事件
+  beforeDestroy() {
+    this.$bus.$off('checkTodo')
+    this.$bus.$off('removeTodo')
+    this.$bus.$off('updateTodo')
+  }
 }
 </script>
 
@@ -106,6 +117,17 @@ body {
 .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
+}
+
+.btn-edit {
+  color: #fff;
+  background-color: #494bda;
+  border: 1px solid #4b2fbd;
+}
+
+.btn-edit:hover {
+  color: #fff;
+  background-color: #4b2fbd;
 }
 
 .btn:focus {
