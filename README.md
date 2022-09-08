@@ -61,7 +61,7 @@
       ```
   * 提供数据：```this.$bus.$emit('xxxx',数据)```
 * 最好在beforeDestroy钩子中，用$off去解绑<span style="color:red">当前组件所用到的</span>事件
-### 第三次完成
+## 第三次完成
 ### 增加todo项的编辑功能
 * 点击编辑按钮时，对应todo项变成输入框，编辑按钮隐藏
   * 用`$set`方法给todo增加`isEdit`属性，默认值`true`（只在第一次增加，后续再次编辑，改变值即可）
@@ -73,3 +73,25 @@
 * 输入框失去焦点是时，处理编辑逻辑
   * `isEdit=false`
   * text值不为空时，`this.$bus.$emit('updateTodo', todo.id, e.target.value)`调用函数，让APP组件改变对应id项的`todo.text`
+## 第四次完成
+### 给todo的添加和删除增加动画效果
+* 在插入、更新或移除 DOM元素时，在合适的时候给元素添加样式类名
+* 实现
+  * 准备好样式：
+    * 元素进入的样式
+      * v-enter：进入的起点
+      * v-enter-active：进入过程中
+      * v-enter-to：进入的终点
+    * 元素离开的样式
+      * v-leave：离开的起点
+      * v-leave-active：离开过程中
+      * v-leave-to：离开的终点
+    * 相同项可以合并写
+  * 使用`<transition>`/`<transition-group>`包裹要过度的元素，并配置name属性
+
+      ```vue
+      <transition name="hello">
+      	<h1 v-show="isShow">你好啊！</h1>
+      </transition>
+      ```
+    * 若有多个元素需要过度，使用`<transition-group>`时要注意每个元素都要指定```key```值。 

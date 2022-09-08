@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       // 将todos写在app中是因为Header（写）和Footer（读）、List（读）都要使用todos，这属于 状态提升
-      todos: [] || JSON.parse(localStorage.getItem('todos'))
+      todos: JSON.parse(localStorage.getItem('todos')) || []
     }
   },
   methods: {
