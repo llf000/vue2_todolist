@@ -8,8 +8,6 @@
 import { nanoid } from 'nanoid'
 export default {
   name: 'TodoHeader',
-  // 接收数据
-  props: ['addTodo'],
   data() {
     return {
       // 收集输入的text
@@ -23,8 +21,8 @@ export default {
       if (trimmedtext) {
         // 将输入的信息包装成todo对象
         const todo = { id: nanoid(), text: trimmedtext, done: false }
-        // 通知App组件添加新todo
-        this.addTodo(todo)
+        // 触发自定义事件通知App组件添加新todo
+        this.$emit('addTodo', todo)
         // 清空输入
         this.newTodoText = ''
       } else {

@@ -1,18 +1,20 @@
 <template>
   <div id="root">
-    <HelloWorld msg="Vue2 TodoList" />
+    <HelloWorld msg="Welcome to Your Vue.js App" />
     <div class="todo-container">
       <div class="todo-wrap">
-        <TodoHeader :addTodo="addTodo" />
-        <TodoList :todos="todos" :checkTodo="checkTodo" :removeTodo="removeTodo" />
-        <TodoFooter :todos="todos" :checkAllTodo='checkAllTodo' :clearAllTodo="clearAllTodo" />
+        <!-- <TodoHeader :addTodo="addTodo" /> -->
+        <!-- 给header添加自定义事件 @事件名：回调函数 -->
+        <TodoHeader @addTodo="addTodo" />
+        <TodoList :todos="todos" />
+        <TodoFooter :todos="todos" @checkAllTodo='checkAllTodo' @clearAllTodo="clearAllTodo" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/Hello.vue'
+import HelloWorld from './components/HelloWorld.vue'
 
 import TodoHeader from './components/TodoHeader.vue'
 import TodoList from './components/TodoList.vue'
@@ -66,7 +68,13 @@ export default {
         localStorage.setItem('todos', JSON.stringify(value))
       }
     }
-  }
+  },
+  // 在组件挂载后就找到全局时间总线，绑定事件，在事件被触发时会调用对应回调函数
+  // 实现APP和item之间的通信---APP需要在todo移除和复选框操作时，接收item的数据
+  mounted() {
+    this.$bus.$on('checkTodo', this.checkTodo)
+    this.$bus.$on('removeTodo', this.removeTodo)
+  },
 }
 </script>
 

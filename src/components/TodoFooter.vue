@@ -15,7 +15,7 @@
 export default {
   name: 'TodoFooter',
   // 接收数据
-  props: ['todos', 'checkAllTodo', 'clearAllTodo'],
+  props: ['todos'],
   // 计算
   computed: {
     // 总的todo数
@@ -34,14 +34,14 @@ export default {
       },
       // isAll被修改时set被调用
       set(value) {
-        this.checkAllTodo(value)
+        this.$emit('checkAllTodo', value)
       }
     }
   },
   methods: {
     // 清除所有已完成todo
     clearAll() {
-      this.clearAllTodo()
+      this.$emit('clearAllTodo')
     }
   }
 }
